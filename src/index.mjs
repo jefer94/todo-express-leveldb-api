@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import bodyParser  from 'body-parser'
-import { listTodo, addTodo, removeTodo, login, signup, index } from './routes/index.mjs'
+import { listTodo, addTodo, removeTodo, login, signup, index, loginPath, signupPath, todoPath, indexPath } from './routes/index.mjs'
 import { jwtMiddleware } from './libs/jwt.mjs'
 import process from 'process'
 
@@ -18,10 +18,10 @@ app.use(cors())
    .use(bodyParser.urlencoded({ extended: false }))
    
    .use(jwtMiddleware)
-   .get('/todo', listTodo)
-   .post('/todo', addTodo)
-   .delete('/todo', removeTodo)
-   .post('/login', login)
-   .post('/signup', signup)
-   .get('/', index)
+   .get(todoPath, listTodo)
+   .post(todoPath, addTodo)
+   .delete(todoPath + '/:id', removeTodo)
+   .post(loginPath, login)
+   .post(signupPath, signup)
+   .get(indexPath, index)
    .listen(port)

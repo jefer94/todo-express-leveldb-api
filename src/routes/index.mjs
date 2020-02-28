@@ -7,5 +7,7 @@ export function index(req, res) {
   })
 }
 
+export const indexPath = '/'
+
 export * from './todo.mjs'
 export * from './auth.mjs'

@@ -1,4 +1,5 @@
 import { get, put } from '../libs/db.mjs'
+export const todoPath = '/todo'
 
 export async function listTodo(req, res) {
   try {
@@ -43,7 +44,7 @@ export async function addTodo(req, res) {
 }
 
 export async function removeTodo(req, res) {
-  const {id} = req.body
+  const {id} = req.params
   let storage
 
   if (typeof +id == 'number') {

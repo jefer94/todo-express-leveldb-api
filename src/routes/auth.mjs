@@ -5,6 +5,9 @@ import { saltRounds, secret } from '../libs/jwt.mjs'
 
 const { compare, hash } = bcrypt
 
+export const loginPath = '/login'
+export const signupPath = '/signup'
+
 export async function login(req, res) {
   const {user, pass} = req.body
   let status = 401
@@ -38,7 +41,6 @@ function strongPassword(pass) {
 
 export async function signup(req, res) {
   const {user, pass} = req.body
-  console.log('post', req.body)
   let status = 401
   let response = ''
 

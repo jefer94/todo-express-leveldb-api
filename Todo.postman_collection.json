@@ -85,7 +85,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "123456",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInVzZXIiOiJ1c2VyIiwicGFzcyI6IiQyYiQxMCRLL0JTdmhYblA4V2tQWXpwb3BWZGllUnhUaWJVbmVvUjIuWW1oNHcxWVMvYTh0TFdMRUdPdSIsIm5vdyI6MTU4Mjg3NDMzNjA1MSwiaWF0IjoxNTgyODc0MzM2LCJleHAiOjE1ODI5NjA3MzZ9.jY0IdEBgs4IyfYiXTPpnWIHAO029j-uT3YpQ6DCG4TA",
 							"type": "string"
 						}
 					]
@@ -99,23 +99,15 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"id\": 1}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "localhost:5000/todo",
+					"raw": "localhost:5000/todo/1",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
-						"todo"
+						"todo",
+						"1"
 					]
 				}
 			},
