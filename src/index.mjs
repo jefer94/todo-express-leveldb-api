@@ -3,11 +3,11 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import bodyParser  from 'body-parser'
-import { list, add, remove, login, signup, jwtMiddleware } from './routes.mjs'
+import { listTodo, addTodo, removeTodo, login, signup, index } from './routes/index.mjs'
+import { jwtMiddleware } from './libs/jwt.mjs'
 import process from 'process'
 
 const app = express()
-
 const port = process.env.PORT || 5000
 
 app.use(cors())
@@ -18,9 +18,10 @@ app.use(cors())
    .use(bodyParser.urlencoded({ extended: false }))
    
    .use(jwtMiddleware)
-   .get('/', list)
-   .post('/', add)
-   .delete('/', remove)
+   .get('/todo', listTodo)
+   .post('/todo', addTodo)
+   .delete('/todo', removeTodo)
    .post('/login', login)
    .post('/signup', signup)
+   .get('/', index)
    .listen(port)

@@ -1,6 +1,6 @@
-import { get, put } from './db.mjs'
+import { get, put } from '../libs/db.mjs'
 
-export async function list(req, res) {
+export async function listTodo(req, res) {
   try {
     res.json(JSON.parse((await get(`ToDo${req.user.id}`)).toString()))
   }
@@ -9,7 +9,7 @@ export async function list(req, res) {
   }
 }
 
-export async function add(req, res) {
+export async function addTodo(req, res) {
   const {name} = req.body
   let storage
   let id
@@ -42,7 +42,7 @@ export async function add(req, res) {
   }
 }
 
-export async function remove(req, res) {
+export async function removeTodo(req, res) {
   const {id} = req.body
   let storage
 
@@ -65,5 +65,3 @@ export async function remove(req, res) {
   else
     res.status(401).send('')
 }
-
-export * from './jwt.mjs'

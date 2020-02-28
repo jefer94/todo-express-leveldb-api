@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { get, put } from './db.mjs'
+import { get, put } from '../libs/db.mjs'
+import { saltRounds, secret } from '../libs/jwt.mjs'
 
 const { compare, hash } = bcrypt
-
-const secret = '.\`5H+C8ewL~&wat"z<-A.eHmW2M}./m)w;zbh\'aBZwshA>!M;h&dyBhnaJK{_"Y'
-const saltRounds = 10
 
 export async function login(req, res) {
   const {user, pass} = req.body
@@ -40,6 +38,7 @@ function strongPassword(pass) {
 
 export async function signup(req, res) {
   const {user, pass} = req.body
+  console.log('post', req.body)
   let status = 401
   let response = ''
 
@@ -71,41 +70,11 @@ export async function signup(req, res) {
         response = jwt.sign(data, secret, { expiresIn: '1d' })
       }
       catch(e) {
+        console.error('error', e)
         status = 500
       }
     }
   }
   
   res.status(status).send(response)
-}
-
-function isNotRestricted(url) {
-  return !(url === '/login' ||
-           url === '/signup')
-}
-
-export function jwtMiddleware(req, res, next) {
-  req.user = { id: 0 }
-  const notRestricted = isNotRestricted(req.originalUrl)
-  if (notRestricted) {
-    if (!req.headers.authorization && !/^Bearer /.test(req.headers.authorization))
-      return res.status(401).send([])
-
-    else {
-      try {
-        const data = jwt.verify(req.headers.authorization.replace('Bearer ', ''), secret)
-        if (data) {
-          req.user = data
-          next()
-          return
-        }
-      }
-      catch (e) {
-        next()
-        return
-      }
-    }
-  }
-  next()
-  // return res.status(401).send([])
 }
