@@ -1,8 +1,11 @@
 import jwt from 'jsonwebtoken'
 
-export const secret = '.\`5H+C8ewL~&wat"z<-A.eHmW2M}./m)w;zbh\'aBZwshA>!M;h&dyBhnaJK{_"Y'
-export const saltRounds = 10
+export const secret = () => process.env.SECRET || '.\`5H+C8ewL~&wat"z<-A.eHmW2M}./m)w;zbh\'aBZwshA>!M;h&dyBhnaJK{_"Y'
+export const saltRounds = () => process.env.SALT_ROUNDS || 10
 
+export function sign(data) {
+  return jwt.sign(data, secret(), { expiresIn: '1d' })
+}
 
 function isNotRestricted(url) {
   return !(url === '/login' ||
@@ -10,7 +13,7 @@ function isNotRestricted(url) {
            url === '/')
 }
 
-export function jwtMiddleware(req, res, next) {
+export default function(req, res, next) {
   req.user = { id: 0 }
   const notRestricted = isNotRestricted(req.originalUrl)
   if (notRestricted) {
@@ -19,7 +22,7 @@ export function jwtMiddleware(req, res, next) {
 
     else {
       try {
-        const data = jwt.verify(req.headers.authorization.replace('Bearer ', ''), secret)
+        const data = jwt.verify(req.headers.authorization.replace('Bearer ', ''), secret())
         if (data) {
           req.user = data
           next()

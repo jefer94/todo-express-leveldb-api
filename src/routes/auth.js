@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { get, put } from '../libs/db.mjs'
-import { saltRounds, secret } from '../libs/jwt.mjs'
+import { get, put } from '../libs/db'
+import { saltRounds, secret } from '../libs/jwt'
 
 const { compare, hash } = bcrypt
 

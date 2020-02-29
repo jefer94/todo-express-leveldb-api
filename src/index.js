@@ -3,8 +3,8 @@ import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import bodyParser  from 'body-parser'
-import { listTodo, addTodo, removeTodo, login, signup, index, loginPath, signupPath, todoPath, indexPath } from './routes/index.mjs'
-import { jwtMiddleware } from './libs/jwt.mjs'
+import { listTodo, addTodo, removeTodo, login, signup, index, loginPath, signupPath, todoPath, indexPath } from './routes'
+import { jwtMiddleware } from './libs/jwt'
 import process from 'process'
 
 const app = express()

@@ -2,7 +2,11 @@ import levelup from 'levelup'
 import leveldown from 'leveldown'
 
 // 1) Create our store
-const db = levelup(leveldown('./.storage'))
+let db = levelup(leveldown('./.storage'))
+
+// export function mockDb(mock) {
+//   db = mock
+// }
 
 export async function get(key, value) {
   return await db.get(key)
