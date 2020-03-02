@@ -6,9 +6,9 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import process from 'process'
 import { config } from 'dotenv'
+import http from 'http'
 import { listTodo, addTodo, removeTodo, login, signup, index, loginPath, signupPath, todoPath, indexPath } from './routes'
 import jwt from './libs/jwt'
-import http from 'http'
 
 config()
 
@@ -18,8 +18,7 @@ let log = true
 let server
 
 export function close() {
-  if (server)
-    server.close()
+  if (server) server.close()
 }
 
 export function disableLog() {
@@ -30,7 +29,7 @@ export function disableLog() {
 export default function (run = true) {
   if (run) {
     if (log) app.use(morgan('combined'))
-    
+
     app.use(cors())
       .use(helmet())
     // .use(express.json())
@@ -44,8 +43,7 @@ export default function (run = true) {
       .post(signupPath, signup)
       .get(indexPath, index)
 
-      server = http.createServer(app)
-      server.listen(port)
+    server = http.createServer(app)
+    server.listen(port)
   }
-
 }

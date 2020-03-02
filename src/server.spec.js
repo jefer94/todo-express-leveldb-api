@@ -8,10 +8,7 @@ import db, { resetStorage } from './mocks/db'
 
 should()
 
-axios.defaults.validateStatus = function () {
-  return true
-}
-
+axios.defaults.validateStatus = () => true
 
 const user = {
   user: 'oreo',
@@ -95,7 +92,7 @@ describe('Integration Testing', () => {
       })
 
       it('with name, response 200 with []', async () => {
-        const res = await axios.post(`${url}/todo`, {name: 'Tristana'}, {
+        const res = await axios.post(`${url}/todo`, { name: 'Tristana' }, {
           headers: {
             authorization: `Bearer ${await getToken()}`
           }
@@ -128,7 +125,7 @@ describe('Integration Testing', () => {
       })
 
       it('with id and token, response 204 with null', async () => {
-        const res1 = await axios.post(`${url}/todo`, {name: 'Super Tristana'}, {
+        const res1 = await axios.post(`${url}/todo`, { name: 'Super Tristana' }, {
           headers: {
             authorization: `Bearer ${await getToken()}`
           }
@@ -138,7 +135,7 @@ describe('Integration Testing', () => {
         assert.typeOf(res1.data, 'number')
         assert.equal(res1.data, 1)
 
-        
+
         const res2 = await axios.get(`${url}/todo`, {
           headers: {
             authorization: `Bearer ${await getToken()}`
@@ -185,7 +182,7 @@ describe('Integration Testing', () => {
       })
 
       it('bad auth data return 401', async () => {
-        const res = await axios.post(`${url}/login`, {user: 'potato', pass: 'dark'})
+        const res = await axios.post(`${url}/login`, { user: 'potato', pass: 'dark' })
 
         assert.equal(res.status, 401)
         assert.equal(res.data, '')
@@ -212,14 +209,14 @@ describe('Integration Testing', () => {
       })
 
       it('bad auth data return 401', async () => {
-        const res = await axios.post(`${url}/signup`, {user: 'potato', pass: 'dark'})
+        const res = await axios.post(`${url}/signup`, { user: 'potato', pass: 'dark' })
 
         assert.equal(res.status, 401)
         assert.equal(res.data, '')
       })
 
       it('good auth data return 200 and token', async () => {
-        const res = await axios.post(`${url}/signup`, {user: 'popato', pass: 'Dark+++101'})
+        const res = await axios.post(`${url}/signup`, { user: 'popato', pass: 'Dark+++101' })
 
         assert.equal(res.status, 200)
         assert.typeOf(res.data, 'string')
@@ -233,7 +230,7 @@ async function getToken() {
   let response
 
   response = await axios.post(`${url}/signup`, user)
-  
+
   if (response.status === 401) response = await axios.post(`${url}/login`, user)
 
   if (response.data) token = response.data

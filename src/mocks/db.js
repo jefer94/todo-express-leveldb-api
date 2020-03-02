@@ -17,7 +17,7 @@ const db = {
 }
 
 export function resetStorage() {
-  for (let i in storage) storage[i] = null
+  Object.keys(storage).forEach((i) => { storage[i] = null })
 }
 
 export default db
