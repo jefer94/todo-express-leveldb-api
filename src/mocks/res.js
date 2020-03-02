@@ -1,20 +1,20 @@
 class Response {
   constructor() {
-    this.__status = 200
-    this.__body = ''
+    this.mockStatus = 200
+    this.mockBody = ''
     this.headers = {
       'content-type': 'text/plain'
     }
   }
 
   json(data) {
-    this.__body = data
+    this.mockBody = data
     this.headers['content-type'] = 'application/json'
     return this
   }
 
   send(data) {
-    this.__body = (
+    this.mockBody = (
       typeof data === 'object' ?
         JSON.stringify(data) :
         `${data}`
@@ -24,9 +24,9 @@ class Response {
   }
 
   status(status) {
-    this.__status = status
+    this.mockStatus = status
     return this
   }
 }
 
-export default () => new Response
+export default () => new Response()

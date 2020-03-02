@@ -2,8 +2,9 @@ class Request {
   constructor() {
     this.headers = {}
     this.body = {}
-    this.originalUrl
+    // this.originalUrl
+    this.params = {}
   }
 }
 
-export default () => new Request
+export default () => new Request()

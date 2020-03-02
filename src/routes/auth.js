@@ -9,26 +9,22 @@ export const loginPath = '/login'
 export const signupPath = '/signup'
 
 export async function login(req, res) {
-  const {user, pass} = req.body
-  let status = 401
-  let response = ''
+  const { user, pass } = req.body
   if (user && pass) {
     try {
       const current = JSON.parse(await get(`User-${user}`))
 
-      if (current.id && current.pass && await compare(pass, current.pass)) {
+      if (Number.isInteger(current.id) && current.pass && await compare(pass, current.pass)) {
         current.now = Date.now()
-        res.status(200).send(jwt.sign(current, secret, { expiresIn: '1d' }))
+        res.status(200).send(jwt.sign(current, secret(), { expiresIn: '1d' }))
         return
       }
     }
-    catch(e) { }
+    catch (e) {}
 
     res.status(401).send('')
   }
-  else {
-    res.status(500).send('')
-  }
+  else res.status(500).send('')
 }
 
 function strongPassword(pass) {
@@ -40,7 +36,7 @@ function strongPassword(pass) {
 }
 
 export async function signup(req, res) {
-  const {user, pass} = req.body
+  const { user, pass } = req.body
   let status = 401
   let response = ''
 
@@ -51,32 +47,29 @@ export async function signup(req, res) {
     try {
       currentUser = (await get(`User-${user}`)).toString()
     }
-    catch(e) {
+    catch (e) {
       currentUser = false
     }
 
     try {
       id = +((await get('UserId')).toString()) + 1
     }
-    catch(e) {
+    catch (e) {
       id = 0
     }
 
-    if (!currentUser) {
-      try {
-        const data = {id, user, pass: await hash(pass, saltRounds)}
-        await put('UserId', id.toString())
-        await put(`User-${user}`, JSON.stringify(data))
-        data.now = Date.now()
-        status = 200
-        response = jwt.sign(data, secret, { expiresIn: '1d' })
-      }
-      catch(e) {
-        console.error('error', e)
-        status = 500
-      }
+    if (!currentUser) try {
+      const data = { id, user, pass: await hash(pass, saltRounds()) }
+      await put('UserId', id.toString())
+      await put(`User-${user}`, JSON.stringify(data))
+      data.now = Date.now()
+      status = 200
+      response = jwt.sign(data, secret(), { expiresIn: '1d' })
+    }
+    catch (e) {
+      status = 500
     }
   }
-  
+
   res.status(status).send(response)
 }

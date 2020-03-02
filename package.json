@@ -9,8 +9,10 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch --progress",
     "start": "node ./dist/server.js",
-    "test": "jest",
-    "testing": "jest --watchAll"
+    "test": "mocha \"src/**/*.spec.js\"",
+    "testing": "mocha \"src/{**/*,*}.spec.js\" --watch",
+    "lint": "eslint webpack.config.js src/*.js src/**/*.js",
+    "lint:fix": "eslint webpack.config.js src/*.js src/**/*.js --fix"
   },
   "dependencies": {
     "bcrypt": "^4.0.0",
@@ -28,12 +30,26 @@
     "@babel/core": "^7.8.6",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
+    "@babel/register": "^7.8.6",
+    "axios": "^0.19.2",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
     "husky": "^4.2.3",
+    "mocha": "^7.1.0",
     "nodemon": "^2.0.2",
     "nodemon-webpack-plugin": "^4.3.1",
+    "regenerator-runtime": "^0.13.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn test && yarn lint"
+    }
   }
 }

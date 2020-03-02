@@ -1,21 +1,36 @@
 import levelup from 'levelup'
 import leveldown from 'leveldown'
 
-// 1) Create our store
-let db = levelup(leveldown('./.storage'))
+let db
+let instance = false
+let mocking = false
 
-// export function mockDb(mock) {
-//   db = mock
-// }
+function startDb() {
+  if (!instance && !mocking) db = levelup(leveldown('./.storage'))
 
-export async function get(key, value) {
-  return await db.get(key)
+  instance = true
 }
 
-export async function put(key, value) {
-  return await db.put(key, value)
+export async function mockDb(mock) {
+  try {
+    db = mock
+    mocking = true
+    instance = true
+  }
+  catch (e) {}
 }
 
-export async function del(key) {
-  return await db.del(key)
+export function get(key) {
+  startDb()
+  return db.get(key)
+}
+
+export function put(key, value) {
+  startDb()
+  return db.put(key, value)
+}
+
+export function del(key) {
+  startDb()
+  return db.del(key)
 }
