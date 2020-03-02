@@ -16,4 +16,8 @@ const db = {
   }
 }
 
+export function resetStorage() {
+  for (let i in storage) storage[i] = null
+}
+
 export default db

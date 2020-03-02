@@ -9,7 +9,7 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch --progress",
     "start": "node ./dist/server.js",
-    "test": "mocha \"src/**/*.spec.js\"",
+    "test": "mocha \"src/{**/*,*}.spec.js\"",
     "testing": "mocha \"src/{**/*,*}.spec.js\" --watch",
     "lint": "eslint webpack.config.js src/*.js src/**/*.js",
     "lint:fix": "eslint webpack.config.js src/*.js src/**/*.js --fix"
